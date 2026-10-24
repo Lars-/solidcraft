@@ -111,6 +111,10 @@ impl eframe::App for App {
                     ctx.send_viewport_cmd(egui::ViewportCommand::Focus);
                 }
                 solidcraft_engine::crash::phase(solidcraft_engine::crash::RUNNING);
+                // Automation runs (a control port was asked for) leave the user's AI apps alone.
+                if !self.take_focus_unwanted {
+                    solidcraft_ui_egui::ai_connect::begin(&mut self.solve);
+                }
                 if let Some(dir) = self.starting.take() {
                     startup::started(&dir);
                 }
