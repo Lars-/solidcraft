@@ -1,0 +1,56 @@
+{
+  "en": {
+    "prefs.ui_style": "Interface style",
+    "prefs.ui_style_standard": "Standard",
+    "prefs.ui_style_solidworks": "SolidWorks-style",
+    "prefs.ui_style_note": "SolidWorks-style sets the mouse, the History, the origin plane names, the dialogs and sketching the way SolidWorks users expect: middle drag orbits, the History sits under a folded browser with each sketch under its feature, the planes are called Top, Front and Right, dialogs open in the left column with OK and Cancel at the top and in the view's corner, a status bar runs along the bottom, dimension values are typed in a window with step arrows, and a press and drag in the Line tool draws one line. The Sketch tab stays shown, Extrude Cut and Revolve Cut get buttons, the view bar sits at the top of the view, F fits the view and Enter repeats the last command. Each option can still be changed on its own; Standard puts them back."
+  },
+  "ja": {
+    "prefs.ui_style": "インターフェイスのスタイル",
+    "prefs.ui_style_standard": "標準",
+    "prefs.ui_style_solidworks": "SolidWorks 風",
+    "prefs.ui_style_note": "SolidWorks 風は、マウス、履歴、原点平面の名前、ダイアログ、スケッチを SolidWorks ユーザーの慣れた形に設定します。中ドラッグで回転、履歴は折りたたんだブラウザーの下に置かれ各スケッチはそのフィーチャーの下に表示され、平面は上面・正面・右側面と呼ばれ、ダイアログは左の列に開き OK とキャンセルは上部とビューの隅に置かれ、ウィンドウの下端にステータスバーが表示され、寸法値は増減矢印付きのウィンドウで入力し、線ツールでは押してドラッグすると線を 1 本描きます。スケッチ タブは常に表示され、押し出しカットと回転カットのボタンが加わり、ビュー バーはビューの上部に置かれ、F でビューに合わせ、Enter で最後のコマンドを繰り返します。各オプションは個別に変更できます。標準に戻すと元に戻ります。"
+  },
+  "zh": {
+    "prefs.ui_style": "界面风格",
+    "prefs.ui_style_standard": "标准",
+    "prefs.ui_style_solidworks": "SolidWorks 风格",
+    "prefs.ui_style_note": "SolidWorks 风格按 SolidWorks 用户的习惯设置鼠标、历史、原点平面名称、对话框和草图：中键拖动旋转，历史位于折叠的浏览器下方且每个草图列在其特征下，平面称为上、前、右，对话框在左侧栏打开，确定和取消位于顶部和视图角落，窗口底部显示状态栏，尺寸值在带步进箭头的窗口中输入，在直线工具中按下并拖动绘制一条直线。草图选项卡始终显示，拉伸切除和旋转切除有了按钮，视图栏位于视图顶部，F 适应视图，Enter 重复上一个命令。每个选项仍可单独更改；选择标准即可恢复。"
+  },
+  "ar": {
+    "prefs.ui_style": "نمط الواجهة",
+    "prefs.ui_style_standard": "قياسي",
+    "prefs.ui_style_solidworks": "نمط SolidWorks",
+    "prefs.ui_style_note": "يضبط نمط SolidWorks الفأرة والسجل وأسماء مستويات الأصل والحوارات والرسم كما اعتاد مستخدمو SolidWorks: السحب بالزر الأوسط يدوّر العرض، ويقع السجل تحت مستعرض مطوي مع كل رسم تحت ميزته، وتُسمى المستويات أعلى وأمام ويمين، وتفتح الحوارات في العمود الأيسر مع موافق وإلغاء في الأعلى وفي زاوية العرض، ويمتد شريط حالة على الحافة السفلية، وتُكتب قيم الأبعاد في نافذة بأسهم للخطوات، والضغط والسحب في أداة الخط يرسم خطًا واحدًا. يبقى تبويب الرسم ظاهرًا، ويحصل القطع بالبثق والقطع بالدوران على زرين، ويقع شريط العرض أعلى العرض، ويضبط F العرض ليناسب النموذج، ويكرر Enter آخر أمر. يمكن تغيير كل خيار وحده؛ ويعيدها الخيار القياسي كما كانت."
+  },
+  "he": {
+    "prefs.ui_style": "סגנון הממשק",
+    "prefs.ui_style_standard": "רגיל",
+    "prefs.ui_style_solidworks": "בסגנון SolidWorks",
+    "prefs.ui_style_note": "סגנון SolidWorks מגדיר את העכבר, ההיסטוריה, שמות מישורי הראשית, תיבות הדו־שיח והשרטוט כפי שמשתמשי SolidWorks רגילים: גרירה בכפתור האמצעי מסובבת, ההיסטוריה נמצאת מתחת לדפדפן מקופל וכל סקיצה מתחת לתכונה שלה, המישורים נקראים עליון, חזית וימין, תיבות הדו־שיח נפתחות בעמודה השמאלית עם אישור וביטול למעלה ובפינת התצוגה, שורת מצב לאורך הקצה התחתון, ערכי מידות מוקלדים בחלון עם חצים לשינוי בצעדים, ולחיצה וגרירה בכלי הקו משרטטות קו אחד. לשונית הסקיצה נשארת מוצגת, להסרה בשליפה ולהסרה בסיבוב יש כפתורים, סרגל התצוגה נמצא בראש התצוגה, F מתאים את התצוגה ו־Enter חוזר על הפקודה האחרונה. אפשר עדיין לשנות כל אפשרות בנפרד; רגיל מחזיר אותן."
+  },
+  "vi": {
+    "prefs.ui_style": "Kiểu giao diện",
+    "prefs.ui_style_standard": "Tiêu chuẩn",
+    "prefs.ui_style_solidworks": "Kiểu SolidWorks",
+    "prefs.ui_style_note": "Kiểu SolidWorks đặt chuột, Lịch sử, tên các mặt phẳng gốc, hộp thoại và cách vẽ phác theo thói quen của người dùng SolidWorks: kéo chuột giữa để xoay, Lịch sử nằm dưới trình duyệt thu gọn với mỗi bản phác dưới đối tượng của nó, các mặt phẳng được gọi là Trên, Trước và Phải, hộp thoại mở trong cột bên trái với OK và Hủy ở trên cùng và ở góc khung nhìn, một thanh trạng thái chạy dọc cạnh dưới, giá trị kích thước được nhập trong một cửa sổ có mũi tên bước, và nhấn rồi kéo trong công cụ Đường vẽ một đường. Thẻ Bản phác luôn hiện, Cắt bằng đùn khối và Cắt bằng xoay tròn có nút riêng, thanh khung nhìn nằm ở trên cùng khung nhìn, F làm vừa khung nhìn và Enter lặp lại lệnh cuối. Mỗi tùy chọn vẫn có thể đổi riêng; Tiêu chuẩn đặt chúng trở lại."
+  },
+  "de": {
+    "prefs.ui_style": "Oberflächenstil",
+    "prefs.ui_style_standard": "Standard",
+    "prefs.ui_style_solidworks": "SolidWorks-Stil",
+    "prefs.ui_style_note": "Der SolidWorks-Stil stellt Maus, Verlauf, Namen der Ursprungsebenen, Dialoge und Skizzieren so ein, wie SolidWorks-Nutzer es gewohnt sind: Ziehen mit der mittleren Taste dreht, der Verlauf steht unter einem eingeklappten Browser mit jeder Skizze unter ihrem Feature, die Ebenen heißen Oben, Vorne und Rechts, Dialoge öffnen sich in der linken Spalte mit OK und Abbrechen oben und in der Ecke der Ansicht, eine Statusleiste läuft am unteren Rand entlang, Bemaßungswerte werden in einem Fenster mit Schrittpfeilen eingegeben, und Drücken und Ziehen im Linienwerkzeug zeichnet eine Linie. Die Registerkarte Skizze bleibt sichtbar, Extrudieren (Schnitt) und Drehen (Schnitt) erhalten Schaltflächen, die Ansichtsleiste steht oben in der Ansicht, F passt die Ansicht ein und Enter wiederholt den letzten Befehl. Jede Option lässt sich weiterhin einzeln ändern; Standard stellt sie zurück."
+  },
+  "ko": {
+    "prefs.ui_style": "인터페이스 스타일",
+    "prefs.ui_style_standard": "표준",
+    "prefs.ui_style_solidworks": "SolidWorks 스타일",
+    "prefs.ui_style_note": "SolidWorks 스타일은 마우스, 히스토리, 원점 평면 이름, 대화 상자와 스케치를 SolidWorks 사용자에게 익숙한 방식으로 설정합니다. 가운데 버튼 드래그로 회전하고, 히스토리는 접힌 브라우저 아래에 있으며 각 스케치는 해당 피처 아래에 표시되고, 평면은 상면, 정면, 우측면으로 불리며, 대화 상자는 왼쪽 열에서 열리고 확인과 취소는 위쪽과 뷰 모서리에 있으며, 창 아래쪽에 상태 표시줄이 표시되고, 치수 값은 증감 화살표가 있는 창에서 입력하며, 선 도구에서 누른 채 드래그하면 선 하나를 그립니다. 스케치 탭이 항상 표시되고, 돌출 컷과 회전 컷에 버튼이 생기며, 뷰 막대가 뷰 위쪽에 놓이며, F는 뷰를 맞추고 Enter는 마지막 명령을 반복합니다. 각 옵션은 여전히 따로 바꿀 수 있으며, 표준을 선택하면 원래대로 돌아갑니다."
+  },
+  "nl": {
+    "prefs.ui_style": "Interfacestijl",
+    "prefs.ui_style_standard": "Standaard",
+    "prefs.ui_style_solidworks": "SolidWorks-stijl",
+    "prefs.ui_style_note": "SolidWorks-stijl stelt de muis, de geschiedenis, de namen van de oorsprongsvlakken, de dialogen en het schetsen in zoals SolidWorks-gebruikers gewend zijn: slepen met de middelste knop draait, de geschiedenis staat onder een ingeklapte browser met elke schets onder zijn feature, de vlakken heten Boven, Voor en Rechts, dialogen openen in de linkerkolom met OK en Annuleren bovenaan en in de hoek van de weergave, onderaan loopt een statusbalk, maatwaarden typ je in een venster met stappijltjes, en indrukken en slepen in het lijngereedschap tekent één lijn. De Schets-tab blijft zichtbaar, Extruderen (wegsnijden) en Revolve (wegsnijden) krijgen een knop, de weergavebalk staat bovenaan in de weergave, F past de weergave in en Enter herhaalt de laatste opdracht. Elke optie blijft los aan te passen; Standaard zet ze terug."
+  }
+}

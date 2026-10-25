@@ -295,6 +295,7 @@ pub mod tools;
 pub mod ui_kit;
 #[cfg(test)]
 mod ui_kit_guard_tests;
+pub mod ui_style;
 pub mod update;
 mod value_step;
 pub(crate) mod view_angles;

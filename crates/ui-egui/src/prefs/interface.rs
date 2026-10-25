@@ -378,4 +378,6 @@ pub(super) fn interface(app: &mut SolveApp, ui: &mut egui::Ui, t: &Tokens) {
         }
         ui_kit::text(ui, app.tr("ui.colour_vision_note"), ui_kit::Text::Hint("colour_vision"));
     });
+    // Fork-only, last on the page so everything above sits where upstream puts it.
+    crate::ui_style::section(app, ui);
 }

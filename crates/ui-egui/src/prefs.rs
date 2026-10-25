@@ -1157,6 +1157,8 @@ preference_settings! {
     origin_plane_names: OriginPlaneNames = OriginPlaneNames::default(), PAGE_INTERFACE;
     /// When components' bodies sit in a Bodies folder in the browser (#4217).
     browser_bodies_folders: BodiesFolders = BodiesFolders::Several, PAGE_INTERFACE;
+    /// Fork-only: the interface style picked last (crate::ui_style).
+    ui_style: crate::ui_style::UiStyle = Default::default(), PAGE_INTERFACE;
     /// The wheel zooms toward the point under the cursor (else toward the view's centre).
     zoom_to_cursor: bool = true, PAGE_NAVIGATION => check("Zoom to the cursor", "The wheel zooms toward the point under the cursor (off: toward the view's center)");
     /// Speed multiplier for wheel zoom, independent of the 3D mouse.
