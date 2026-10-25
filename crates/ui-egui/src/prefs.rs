@@ -86,6 +86,10 @@ pub struct NavPreset {
     pub help: &'static str,
     /// Choosing the preset turns the wheel the other way.
     pub reverse_zoom: bool,
+    /// Choosing the preset sets what a middle double-click does (`None` leaves it as it is).
+    pub middle_double_click: Option<&'static str>,
+    /// Choosing the preset sets "Right drag orbits" (`None` leaves it as it is).
+    pub right_drag_orbits: Option<bool>,
     pub bindings: &'static [NavBinding],
 }
 
@@ -106,6 +110,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Fusion",
         help: "Middle drag pans, Shift+middle orbits, right drag orbits",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[bind(Middle, NavKeys::SHIFT, Orbit), bind(Middle, NavKeys::NONE, Pan), bind(Right, NavKeys::NONE, Orbit)],
     },
     NavPreset {
@@ -113,6 +119,9 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "SolidWorks",
         help: "Middle drag orbits, Ctrl+middle pans, Shift+middle zooms, right drag orbits",
         reverse_zoom: true,
+        // Picked here, the right button is left to the context menu and mouse gestures (#6492).
+        middle_double_click: Some("fit"),
+        right_drag_orbits: Some(false),
         bindings: &[
             bind(Middle, NavKeys::CTRL, Pan),
             bind(Middle, NavKeys::SHIFT, Zoom),
@@ -125,6 +134,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Inventor",
         help: "Middle drag pans, Shift+middle orbits, Ctrl+middle zooms, right drag orbits",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[
             bind(Middle, NavKeys::SHIFT, Orbit),
             bind(Middle, NavKeys::CTRL, Zoom),
@@ -137,6 +148,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Alias",
         help: "Shift+Alt+left drag orbits, Shift+Alt+middle pans, Shift+Alt+right zooms; middle drag also pans and right drag orbits",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[
             bind(Left, NavKeys::SHIFT_ALT, Orbit),
             bind(Middle, NavKeys::SHIFT_ALT, Pan),
@@ -151,6 +164,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Maya",
         help: "Alt+left drag orbits, Alt+middle pans, Alt+right zooms; middle drag also pans",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[
             bind(Left, NavKeys::ALT, Orbit),
             bind(Middle, NavKeys::ALT, Pan),
@@ -163,6 +178,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Blender",
         help: "Middle drag orbits, Shift+middle pans, Ctrl+middle zooms; right drag leaves the camera alone",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[bind(Middle, NavKeys::SHIFT, Pan), bind(Middle, NavKeys::CTRL, Zoom), bind(Middle, NavKeys::NONE, Orbit)],
     },
     NavPreset {
@@ -170,6 +187,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Tinkercad",
         help: "Right drag orbits, middle or Shift+right drag pans",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[bind(Right, NavKeys::SHIFT, Pan), bind(Right, NavKeys::NONE, Orbit), bind(Middle, NavKeys::NONE, Pan)],
     },
     NavPreset {
@@ -177,6 +196,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "OpenSCAD",
         help: "Left drag on empty space orbits, Shift+left drag box-selects, sketch geometry drags edit; right or middle drag pans, Shift+right or Shift+middle drag zooms",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[
             bind(Left, NavKeys::NONE, Orbit),
             bind(Right, NavKeys::SHIFT, Zoom),
@@ -190,6 +211,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "HFSS",
         help: "Alt+left drag pans, Shift+Alt+left zooms, Ctrl+left drag on empty space orbits",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         // Ctrl+left orbit is the drag from empty space every preset has: as a binding it would
         // also take a Ctrl+click on geometry, which adds to the selection.
         bindings: &[bind(Left, NavKeys::SHIFT_ALT, Zoom), bind(Left, NavKeys::ALT, Pan)],
@@ -199,6 +222,8 @@ pub const NAV_PRESETS: &[NavPreset] = &[
         label: "Touchpad",
         help: "Hold Shift and move the pointer to pan; hold Alt/Option and move it to orbit. No mouse button is needed. Vertical scroll zooms.",
         reverse_zoom: false,
+        middle_double_click: None,
+        right_drag_orbits: None,
         bindings: &[bind(Middle, NavKeys::NONE, Pan), bind(Right, NavKeys::NONE, Orbit)],
     },
 ];
@@ -231,6 +256,19 @@ impl Prefs {
 /// The preset with this id (the default for an unknown one).
 pub fn nav_preset(id: &str) -> &'static NavPreset {
     NAV_PRESETS.iter().find(|p| p.id == id).unwrap_or(&NAV_PRESETS[0])
+}
+
+/// Picks `preset` the way the Preferences page does: its bindings, wheel direction and, when the
+/// preset names them, middle double-click and "Right drag orbits".
+pub fn choose_nav_preset(prefs: &mut Prefs, preset: &NavPreset) {
+    prefs.nav = preset.id.into();
+    prefs.zoom_reverse = preset.reverse_zoom;
+    if let Some(double_click) = preset.middle_double_click {
+        prefs.middle_double_click = double_click.into();
+    }
+    if let Some(orbits) = preset.right_drag_orbits {
+        prefs.right_drag_orbits = orbits;
+    }
 }
 /// Stable control-channel names; presentation labels may be shorter.
 pub const PAGES: &[&str] = &["General", "Interface", "Design", "Navigation", "Keyboard Shortcuts", "Sketch", "Graphics", "AI", "Plugins"];
@@ -783,6 +821,8 @@ preference_settings! {
     /// With free orbit, mouse drags turn sideways about the world's up axis (a turntable without
     /// the pole limit) instead of the screen's.
     free_orbit_upright: bool = false, PAGE_NAVIGATION => check_tr("nav.free_orbit_upright.label");
+    /// Off: a right drag that the mouse mapping would orbit leaves the camera alone (#6492).
+    right_drag_orbits: bool = true, PAGE_NAVIGATION => check_tr("nav.right_drag_orbits.label");
     /// View orientation widget: original signed axes (default) or compact cube.
     navigator_style: NavigatorStyle = NavigatorStyle::default(), PAGE_NAVIGATION;
     /// Show the radial ring and enable hold/flick gestures for viewport context menus.
@@ -1732,7 +1772,12 @@ pub fn nav_mode(app: &SolveApp, button: NavButton, mods: Modifiers) -> Option<Na
     if button == NavButton::Right && crate::mouse_gesture::active(app) {
         return None;
     }
-    nav_preset(&app.preferences.nav).mode(button, mods)
+    let mode = nav_preset(&app.preferences.nav).mode(button, mods);
+    // "Right drag orbits" off leaves the right button to the context menu (#6492).
+    if button == NavButton::Right && mode == Some(NavMode::Orbit) && !app.preferences.right_drag_orbits {
+        return None;
+    }
+    mode
 }
 
 /// +1, or −1 when horizontal scrolling pans the other way (#2007).
@@ -5780,6 +5825,28 @@ mod tests {
         assert_eq!(app.preferences.nav, "fusion");
         control(&mut app, &json!({"button":"cancel"})).unwrap();
         assert_eq!(app.preferences.nav, "touchpad");
+    }
+
+    #[test]
+    fn choosing_the_solidworks_preset_frees_the_right_button_and_fits_on_middle_double_click() {
+        let none = Modifiers::default();
+        let mut app = SolveApp::new(solidcraft_engine::Session::default(), Default::default());
+        app.preferences.middle_double_click = "off".into();
+        set(&mut app, &json!({"nav": "solidworks"})).unwrap();
+        assert!(app.preferences.right_drag_orbits, "a saved SolidWorks preset keeps its right-drag orbit");
+        assert_eq!(nav_mode(&app, NavButton::Right, none), Some(NavMode::Orbit));
+        choose_nav_preset(&mut app.preferences, nav_preset("fusion"));
+        let p = &app.preferences;
+        assert_eq!((p.nav.as_str(), p.zoom_reverse, p.middle_double_click.as_str(), p.right_drag_orbits), ("fusion", false, "off", true));
+        choose_nav_preset(&mut app.preferences, nav_preset("solidworks"));
+        let p = &app.preferences;
+        assert_eq!((p.nav.as_str(), p.zoom_reverse, p.middle_double_click.as_str(), p.right_drag_orbits), ("solidworks", true, "fit", false));
+        assert_eq!(nav_mode(&app, NavButton::Right, none), None, "right drag is left to the context menu (#6492)");
+        assert_eq!(nav_mode(&app, NavButton::Middle, none), Some(NavMode::Orbit));
+        set(&mut app, &json!({"nav": "openscad"})).unwrap();
+        assert_eq!(nav_mode(&app, NavButton::Right, none), Some(NavMode::Pan), "only an orbiting right drag is affected");
+        set(&mut app, &json!({"right_drag_orbits": true, "nav": "solidworks"})).unwrap();
+        assert_eq!(nav_mode(&app, NavButton::Right, none), Some(NavMode::Orbit), "turned back on, the right drag orbits again");
     }
 
     #[test]

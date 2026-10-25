@@ -1,0 +1,34 @@
+{
+  "en": {
+    "nav.right_drag_orbits.label": "Right drag orbits",
+    "nav.right_drag_orbits.help": "Off: a right drag leaves the camera alone and the right button only opens the context menu. Picking the SolidWorks mouse mapping turns it off."
+  },
+  "de": {
+    "nav.right_drag_orbits.label": "Rechtes Ziehen dreht",
+    "nav.right_drag_orbits.help": "Aus: rechtes Ziehen lässt die Kamera unverändert, die rechte Maustaste öffnet nur das Kontextmenü. Die Mausbelegung SolidWorks schaltet es beim Auswählen aus."
+  },
+  "ja": {
+    "nav.right_drag_orbits.label": "右ドラッグで回転",
+    "nav.right_drag_orbits.help": "オフ：右ドラッグではカメラは動かず、右ボタンはコンテキストメニューを開くだけです。マウス割り当てで SolidWorks を選ぶとオフになります。"
+  },
+  "ko": {
+    "nav.right_drag_orbits.label": "오른쪽 드래그로 회전",
+    "nav.right_drag_orbits.help": "끄면 오른쪽 드래그는 카메라에 영향을 주지 않고 오른쪽 버튼은 컨텍스트 메뉴만 엽니다. SolidWorks 마우스 매핑을 선택하면 꺼집니다."
+  },
+  "zh": {
+    "nav.right_drag_orbits.label": "右键拖动旋转",
+    "nav.right_drag_orbits.help": "关闭：右键拖动不会移动相机，右键只打开上下文菜单。选择 SolidWorks 鼠标映射时会关闭此项。"
+  },
+  "ar": {
+    "nav.right_drag_orbits.label": "السحب بالزر الأيمن يدوّر العرض",
+    "nav.right_drag_orbits.help": "عند الإيقاف: لا يحرّك السحب بالزر الأيمن الكاميرا، ويفتح الزر الأيمن قائمة السياق فقط. اختيار تعيين الفأرة SolidWorks يوقفه."
+  },
+  "he": {
+    "nav.right_drag_orbits.label": "גרירה ימנית מסובבת",
+    "nav.right_drag_orbits.help": "כבוי: גרירה בכפתור הימני לא מזיזה את המצלמה, והכפתור הימני רק פותח את תפריט ההקשר. בחירת מיפוי העכבר SolidWorks מכבה זאת."
+  },
+  "vi": {
+    "nav.right_drag_orbits.label": "Kéo chuột phải để xoay",
+    "nav.right_drag_orbits.help": "Tắt: kéo chuột phải không di chuyển camera, và nút phải chỉ mở menu ngữ cảnh. Chọn kiểu chuột SolidWorks sẽ tắt tùy chọn này."
+  }
+}

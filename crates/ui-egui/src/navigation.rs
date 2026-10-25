@@ -1468,6 +1468,21 @@ mod tests {
     }
 
     #[test]
+    fn right_drag_orbits_off_leaves_the_camera_to_the_middle_button() {
+        use serde_json::json;
+        let mut h = crate::scenario::Harness::new();
+        h.app.home.open = false;
+        crate::prefs::choose_nav_preset(&mut h.app.preferences, crate::prefs::nav_preset("solidworks"));
+        let before = h.app.cam;
+        for shift in [false, true] {
+            h.call("ui.drag", json!({"x0":800,"y0":400,"x1":850,"y1":440,"button":"right","shift":shift,"steps":20}));
+            assert_eq!(h.app.cam.back(), before.back(), "shift {shift}: a right drag leaves the camera alone (#6492)");
+        }
+        h.call("ui.drag", json!({"x0":800,"y0":400,"x1":850,"y1":440,"button":"middle","steps":20}));
+        assert_ne!(h.app.cam.back(), before.back(), "the middle button still orbits");
+    }
+
+    #[test]
     fn solidworks_device_and_mouse_keep_turning_with_the_same_screen_axes() {
         use super::*;
         use crate::space_mouse::DeviceMotion;
