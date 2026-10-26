@@ -1,0 +1,77 @@
+{
+  "en": {
+    "prefs.status_bar": "Status bar",
+    "prefs.status_bar_note": "A thin bar along the window's bottom edge shows what is being edited, the open sketch's state in its color and the design's units; a click on the units changes them. The sketch's state then no longer shows in the view's corner.",
+    "status.editing": "Editing {name}",
+    "status.under_constrained": "Under constrained ({count} degrees of freedom)",
+    "status.under_constrained_one": "Under constrained ({count} degree of freedom)",
+    "status.units_tip": "The design's units. Click to change them"
+  },
+  "en-GB": {
+    "prefs.status_bar_note": "A thin bar along the window's bottom edge shows what is being edited, the open sketch's state in its colour and the design's units; a click on the units changes them. The sketch's state then no longer shows in the view's corner."
+  },
+  "de": {
+    "prefs.status_bar": "Statusleiste",
+    "prefs.status_bar_note": "Eine schmale Leiste am unteren Fensterrand zeigt, was gerade bearbeitet wird, den Zustand der offenen Skizze in seiner Farbe und die Einheiten der Konstruktion; ein Klick auf die Einheiten ändert sie. Der Zustand der Skizze steht dann nicht mehr in der Ecke der Ansicht.",
+    "status.editing": "{name} wird bearbeitet",
+    "status.under_constrained": "Unterbestimmt ({count} Freiheitsgrade)",
+    "status.under_constrained_one": "Unterbestimmt ({count} Freiheitsgrad)",
+    "status.units_tip": "Die Einheiten der Konstruktion. Zum Ändern klicken"
+  },
+  "ja": {
+    "prefs.status_bar": "ステータスバー",
+    "prefs.status_bar_note": "ウィンドウの下端の細いバーに、編集中のもの、開いているスケッチの状態（その色で）、デザインの単位を表示します。単位をクリックすると変更できます。スケッチの状態はビューの隅には表示されなくなります。",
+    "status.editing": "編集中: {name}",
+    "status.under_constrained": "拘束不足（自由度 {count}）",
+    "status.under_constrained_one": "拘束不足（自由度 {count}）",
+    "status.units_tip": "デザインの単位。クリックして変更"
+  },
+  "ko": {
+    "prefs.status_bar": "상태 표시줄",
+    "prefs.status_bar_note": "창 아래쪽 가장자리의 얇은 표시줄에 편집 중인 항목, 열려 있는 스케치의 상태(해당 색상으로), 설계 단위가 표시됩니다. 단위를 클릭하면 변경할 수 있습니다. 스케치 상태는 더 이상 뷰 모서리에 표시되지 않습니다.",
+    "status.editing": "{name} 편집 중",
+    "status.under_constrained": "구속 부족 (자유도 {count}개)",
+    "status.under_constrained_one": "구속 부족 (자유도 {count}개)",
+    "status.units_tip": "설계 단위입니다. 클릭하여 변경"
+  },
+  "nl": {
+    "prefs.status_bar": "Statusbalk",
+    "prefs.status_bar_note": "Een smalle balk langs de onderrand van het venster toont wat er wordt bewerkt, de staat van de open schets in zijn kleur en de eenheden van het ontwerp; een klik op de eenheden wijzigt ze. De staat van de schets staat dan niet meer in de hoek van de weergave.",
+    "status.editing": "{name} wordt bewerkt",
+    "status.under_constrained": "Onderbeperkt ({count} vrijheidsgraden)",
+    "status.under_constrained_one": "Onderbeperkt ({count} vrijheidsgraad)",
+    "status.units_tip": "De eenheden van het ontwerp. Klik om ze te wijzigen"
+  },
+  "zh": {
+    "prefs.status_bar": "状态栏",
+    "prefs.status_bar_note": "窗口底边的一条细栏显示正在编辑的对象、打开的草图的状态（以其颜色显示）以及设计的单位；单击单位即可更改。草图的状态随后不再显示在视图的角落。",
+    "status.editing": "正在编辑 {name}",
+    "status.under_constrained": "欠约束（{count} 个自由度）",
+    "status.under_constrained_one": "欠约束（{count} 个自由度）",
+    "status.units_tip": "设计的单位。单击可更改"
+  },
+  "ar": {
+    "prefs.status_bar": "شريط الحالة",
+    "prefs.status_bar_note": "شريط رفيع على الحافة السفلية للنافذة يعرض ما يجري تحريره، وحالة الرسم المفتوح بلونها، ووحدات التصميم؛ النقر على الوحدات يغيّرها. عندها لا تظهر حالة الرسم في زاوية العرض.",
+    "status.editing": "تحرير {name}",
+    "status.under_constrained": "قيود ناقصة ({count} درجات حرية)",
+    "status.under_constrained_one": "قيود ناقصة ({count} درجة حرية)",
+    "status.units_tip": "وحدات التصميم. انقر لتغييرها"
+  },
+  "he": {
+    "prefs.status_bar": "שורת מצב",
+    "prefs.status_bar_note": "פס דק לאורך הקצה התחתון של החלון מציג מה נערך, את מצב הסקיצה הפתוחה בצבע שלו ואת יחידות התכנון; לחיצה על היחידות משנה אותן. מצב הסקיצה לא מוצג אז עוד בפינת התצוגה.",
+    "status.editing": "עריכת {name}",
+    "status.under_constrained": "אילוצים חסרים ({count} דרגות חופש)",
+    "status.under_constrained_one": "אילוצים חסרים (דרגת חופש {count})",
+    "status.units_tip": "יחידות התכנון. לחצו כדי לשנות אותן"
+  },
+  "vi": {
+    "prefs.status_bar": "Thanh trạng thái",
+    "prefs.status_bar_note": "Một thanh mảnh dọc cạnh dưới cửa sổ hiển thị thứ đang được chỉnh sửa, trạng thái của bản phác đang mở theo màu của nó và đơn vị của thiết kế; nhấp vào đơn vị để đổi. Khi đó trạng thái bản phác không còn hiện ở góc khung nhìn.",
+    "status.editing": "Đang sửa {name}",
+    "status.under_constrained": "Thiếu ràng buộc ({count} bậc tự do)",
+    "status.under_constrained_one": "Thiếu ràng buộc ({count} bậc tự do)",
+    "status.units_tip": "Đơn vị của thiết kế. Nhấp để đổi"
+  }
+}
