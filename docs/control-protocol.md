@@ -354,6 +354,7 @@ One setting per line, sorted by name. A change that adds a setting adds its own 
 - `show_frame_rate` (default false: frames per second in the view's bottom-right corner, counting the frames the view draws anyway; it reads 0 FPS once the view is idle)
 - `sketch_auto_dimensions` (default false: each shape drawn in a sketch gets all its dimensions at the sizes drawn, as `sketch.draw.dimensioned` with `as_drawn`; typed values win)
 - `sketch_auto_locate` (default false; with `sketch_auto_dimensions`, new shapes are also placed from the sketch origin until fully constrained, as `sketch.draw.dimensioned` with `locate`)
+- `sketch_conflict_colour` (default true: while the open sketch's constraints conflict, the curves and points a failing constraint holds are drawn in the theme's `sketch_conflict` colour too, not only its glyph or dimension; false: only the glyphs and dimensions are red, in `error`, as before, #7244)
 - `sketch_exit_view` (`keep` (default: the view stays where it is when a sketch ends), `previous` (back to the view from before the sketch), `unless_rotated` (back unless the sketch view was turned))
 - `sketch_tab_always` (default false: the SKETCH tab stays in the ribbon right after MODEL while no sketch is open; a tool in its CREATE or REFERENCE section then opens Create Sketch, on the selected plane or planar face or else on the plane picked next, and starts in the new sketch, #7904)
 - `smooth_wheel_zoom` (default true)

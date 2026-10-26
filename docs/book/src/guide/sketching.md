@@ -316,6 +316,15 @@ shows the remaining degrees of freedom. A constraint or dimension that would ove
 sketch is refused rather than applied. Drag a point to move it; the solver keeps every
 constraint while you drag.
 
+A sketch's constraints can still come to conflict through a change elsewhere: a parameter, or an
+earlier sketch that projected geometry follows. While they do, the curves and points a failing
+constraint holds, and that constraint's glyph or dimension, are drawn in the conflict colour (red;
+the theme key `sketch_conflict`, which follows a theme's `error` colour unless the theme sets it),
+so the constraint to change or remove is easy to find. Constraints that are only redundant (implied
+by others, still holding) keep their usual look. Preferences › Sketch › **Conflicting geometry in
+the conflict colour** (on by default) turns this off: then only the glyphs and dimensions of the
+failing constraints are red, as in earlier versions.
+
 ## Profiles
 
 Closed loops become profiles automatically, including regions split by crossing lines and

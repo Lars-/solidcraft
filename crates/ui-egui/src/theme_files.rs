@@ -306,7 +306,7 @@ theme_keys! {
         sel_profile_edge, hover_profile, hover_profile_edge, sel_vertex, origin_plane, origin_plane_edge, origin_plane_hover,
         origin_point, axis_x, axis_y, axis_z, construction_plane, construction_geom, body, body_edge, manipulator,
         preview_add, preview_new, preview_sketch, preview_cut, cube_face, cube_border, cube_text, cube_hover, viewport_top,
-        viewport_bottom, grid, grid_major, body_selected, sketch, sketch_fixed, sketch_halo, sketch_locked, dimension, dimension_driven,
+        viewport_bottom, grid, grid_major, body_selected, sketch, sketch_fixed, sketch_halo, sketch_locked, sketch_conflict, dimension, dimension_driven,
         sketch_point, sketch_point_free, dialog_bg, dialog_border, chip, section_cap,
         profile_fill, glyph_bg, glyph_edge, glyph_text, overlay, rubber_band, app_bar_text, app_bar_hover, timeline_item,
         timeline_item_error, timeline_marker, field, box_window, box_crossing, sketch_projected, sketch_lost,
@@ -501,6 +501,11 @@ pub fn resolve(theme: &ThemeFile) -> Tokens {
     // Malformed hand-edited saved settings cannot introduce non-finite drawing geometry.
     t.borders = parse_borders(&theme.borders).unwrap_or_default();
     t.icon_palette = parse_icon_palette(&theme.icon_palette).unwrap_or_default();
+    // Conflicting sketch geometry is drawn in the theme's own error colour unless it sets one of
+    // its own (#7244).
+    if !theme.colors.contains_key("sketch_conflict") {
+        t.sketch_conflict = t.error;
+    }
     // A file that sets no colours is its base palette, exactly.
     if !theme.colors.is_empty() {
         file_view_from_theme(&mut t, theme.base.is_dark(), |k| theme.colors.contains_key(k));
@@ -1159,6 +1164,27 @@ mod tests {
         assert_eq!(p.panel, Color32::from_rgb(0x10, 0x20, 0x30));
         assert_eq!(p.axis_z, Color32::from_rgba_unmultiplied(0, 0, 255, 0x80));
         assert_eq!(p.text, Tokens::light().text);
+    }
+
+    /// Conflicting sketch geometry (#7244) is the error red by default, follows a theme's own
+    /// `error` when the theme leaves `sketch_conflict` out, and takes the theme's own key when set.
+    #[test]
+    fn sketch_conflict_defaults_to_the_error_colour_and_a_theme_can_set_its_own() {
+        for t in [Tokens::light(), Tokens::dark()] {
+            assert_eq!(t.sketch_conflict, t.error);
+        }
+        let file = |colors: &str| {
+            resolve(&parse(&format!(r#"{{"format":"solidcraft-theme/1","name":"Conflict","base":"light","colors":{{{colors}}}}}"#)).unwrap())
+        };
+        let (red, green) = (Color32::from_rgb(0xcc, 0x24, 0x1d), Color32::from_rgb(0x12, 0xab, 0x34));
+        assert_eq!(file(r##""error":"#cc241d""##).sketch_conflict, red, "the theme's error colour");
+        assert_eq!(file(r##""error":"#cc241d","sketch_conflict":"#12ab34""##).sketch_conflict, green, "the theme's own key wins");
+        assert_eq!(file(r##""panel":"#102030""##).sketch_conflict, Tokens::light().error);
+        for theme in builtin() {
+            let t = resolve(theme);
+            assert_eq!(t.sketch_conflict, t.error, "{}: conflicts in the theme's error colour", theme.id);
+        }
+        assert!(keys().contains(&"sketch_conflict"), "exported and imported by name");
     }
 
     /// A theme file written before the axes were one set (#976) still reads: its view triad and

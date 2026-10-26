@@ -1,0 +1,42 @@
+{
+  "en": {
+    "prefs.sketch_conflict_colour": "Conflicting geometry in the conflict color",
+    "prefs.sketch_conflict_colour_note": "While a sketch's constraints conflict, the curves and points a failing constraint holds are drawn in the conflict color too, not only its glyph or dimension. Off: they keep their usual colors."
+  },
+  "en-GB": {
+    "prefs.sketch_conflict_colour": "Conflicting geometry in the conflict colour",
+    "prefs.sketch_conflict_colour_note": "While a sketch's constraints conflict, the curves and points a failing constraint holds are drawn in the conflict colour too, not only its glyph or dimension. Off: they keep their usual colours."
+  },
+  "de": {
+    "prefs.sketch_conflict_colour": "Widersprüchliche Geometrie in der Konfliktfarbe",
+    "prefs.sketch_conflict_colour_note": "Solange die Bedingungen einer Skizze im Konflikt stehen, werden auch die Kurven und Punkte, die eine nicht erfüllte Bedingung hält, in der Konfliktfarbe gezeichnet, nicht nur ihr Symbol oder ihre Bemaßung. Aus: Sie behalten ihre üblichen Farben."
+  },
+  "ja": {
+    "prefs.sketch_conflict_colour": "競合するジオメトリを競合色で表示",
+    "prefs.sketch_conflict_colour_note": "スケッチの拘束が競合している間、満たされない拘束のグリフや寸法だけでなく、その拘束が保持する曲線と点も競合色で描画します。オフ: 通常の色のままです。"
+  },
+  "ko": {
+    "prefs.sketch_conflict_colour": "충돌하는 기하를 충돌 색상으로 표시",
+    "prefs.sketch_conflict_colour_note": "스케치의 구속 조건이 충돌하는 동안 실패한 구속 조건의 글리프나 치수뿐 아니라 그 구속 조건이 잡고 있는 곡선과 점도 충돌 색상으로 그립니다. 끄기: 평소 색상을 유지합니다."
+  },
+  "nl": {
+    "prefs.sketch_conflict_colour": "Conflicterende geometrie in de conflictkleur",
+    "prefs.sketch_conflict_colour_note": "Zolang de beperkingen van een schets conflicteren, worden ook de curven en punten die een niet-vervulde beperking vasthoudt in de conflictkleur getekend, niet alleen het symbool of de maat ervan. Uit: ze houden hun gewone kleuren."
+  },
+  "zh": {
+    "prefs.sketch_conflict_colour": "以冲突颜色显示冲突的几何图形",
+    "prefs.sketch_conflict_colour_note": "草图约束冲突时，不仅失败约束的符号或尺寸，该约束所约束的曲线和点也以冲突颜色绘制。关闭：它们保持平常的颜色。"
+  },
+  "ar": {
+    "prefs.sketch_conflict_colour": "الهندسة المتعارضة بلون التعارض",
+    "prefs.sketch_conflict_colour_note": "عندما تتعارض قيود الرسم، تُرسم المنحنيات والنقاط التي يمسكها قيد فاشل بلون التعارض أيضًا، لا رمزه أو بُعده فقط. عند الإيقاف: تحتفظ بألوانها المعتادة."
+  },
+  "he": {
+    "prefs.sketch_conflict_colour": "גאומטריה סותרת בצבע הסתירה",
+    "prefs.sketch_conflict_colour_note": "כשאילוצי סקיצה סותרים, העקומות והנקודות שאילוץ כושל מחזיק מצוירות גם הן בצבע הסתירה, לא רק הסמל או המידה שלו. כבוי: הן שומרות על צבעיהן הרגילים."
+  },
+  "vi": {
+    "prefs.sketch_conflict_colour": "Hình học xung đột theo màu xung đột",
+    "prefs.sketch_conflict_colour_note": "Khi các ràng buộc của bản phác xung đột, các đường cong và điểm mà một ràng buộc lỗi giữ cũng được vẽ bằng màu xung đột, không chỉ ký hiệu hay kích thước của nó. Tắt: chúng giữ màu thường."
+  }
+}

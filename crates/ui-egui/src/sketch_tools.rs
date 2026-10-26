@@ -1293,7 +1293,7 @@ pub fn preview(app: &SolveApp, t: &Tool, painter: &egui::Painter, proj: &Proj) {
 }
 
 /// Constraint glyphs of the active sketch: a small badge per constraint at its anchor
-/// (conflicting ones red).
+/// (failing ones in `sketch_conflict`).
 /// Glyph size and spacing (screen pixels).
 const GLYPH: f32 = 15.0;
 
@@ -1400,7 +1400,7 @@ fn glyphs(app: &SolveApp, painter: &egui::Painter, proj: &Proj, hover: Option<Po
             || app.session.selection.iter().any(|s| matches!(s, solidcraft_engine::Sel::SketchConstraint { id: x } if group.contains(x)));
         let lit = selected || hovered.as_deref() == Some(id.as_str());
         let col = if failing {
-            tk.error
+            crate::viewport::Conflict::glyph_colour(app, &tk)
         } else if lit {
             tk.accent
         } else if redundant {

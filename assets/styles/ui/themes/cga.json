@@ -142,6 +142,7 @@
     "sketch": "#55ffff",
     "sketch_accent": "#ff55ff",
     "sketch_centerline": "#ffff55",
+    "sketch_conflict": "#ff5555",
     "sketch_construction": "#aaaaaa",
     "sketch_fixed": "#ffffff",
     "sketch_halo": "#000000",

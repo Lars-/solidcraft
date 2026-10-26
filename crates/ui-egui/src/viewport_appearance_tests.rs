@@ -405,3 +405,108 @@ fn inspect_menu_toggles_component_colors_without_a_dialog_and_refreshes_scene() 
     let info = command.info(&h.app.session);
     assert_eq!((info.label, info.icon), ("Enable Component Colors", "colored_components"));
 }
+
+/// Every shape the last frame painted in `colour`: point squares, glyph outlines, dimension
+/// lines and arrows.
+fn painted_in(shapes: &[egui::epaint::ClippedShape], colour: egui::Color32) -> usize {
+    fn walk(shape: &egui::Shape, colour: egui::Color32) -> usize {
+        let solid = |c: &egui::epaint::ColorMode| matches!(c, egui::epaint::ColorMode::Solid(x) if *x == colour);
+        match shape {
+            egui::Shape::Vec(shapes) => shapes.iter().map(|s| walk(s, colour)).sum(),
+            egui::Shape::Rect(r) => usize::from(r.fill == colour || r.stroke.color == colour),
+            egui::Shape::Circle(c) => usize::from(c.fill == colour || c.stroke.color == colour),
+            egui::Shape::LineSegment { stroke, .. } => usize::from(stroke.color == colour),
+            egui::Shape::Path(p) => usize::from(p.fill == colour || solid(&p.stroke.color)),
+            _ => 0,
+        }
+    }
+    shapes.iter().map(|s| walk(&s.shape, colour)).sum()
+}
+
+#[test]
+fn conflicting_curves_points_glyphs_and_dimensions_take_the_conflict_colour_until_the_conflict_is_gone() {
+    let mut h = crate::scenario::Harness::new();
+    h.app.home.open = false;
+    // A conflict colour nothing else in a sketch uses: every line and shape in it is a conflict's.
+    let marker = egui::Color32::from_rgb(0x12, 0xab, 0x34);
+    h.call(
+        "ui.prefs",
+        json!({"theme_import": {"format":"solidcraft-theme/1","name":"Conflict marker","base":"light","colors":{"sketch_conflict":"#12ab34"}}}),
+    );
+    h.frame();
+    assert_eq!(crate::theme::Tokens::get().sketch_conflict, marker);
+    // `w` places a guide line; a second sketch ends a 12 mm line on it. Moving the guide out of
+    // reach makes the second sketch's constraints conflict (#7244).
+    let app = &mut h.app;
+    app.run("parameters.add", json!({"name": "w", "expression": "10 mm"})).unwrap();
+    app.run("sketch.create", json!({"plane": "XY", "name": "Guide"})).unwrap();
+    app.run("sketch.line", json!({"points": [[10, -30], [10, 30]], "ids": ["guide"], "connect": false})).unwrap();
+    app.run("sketch.constraint.horizontal_vertical", json!({"line": "guide", "mode": "vertical"})).unwrap();
+    app.run("sketch.dimension", json!({"entities": ["origin", "guide.start"], "type": "horizontal", "value": "w"})).unwrap();
+    app.run("sketch.finish", json!({})).unwrap();
+    let reach = app.run("sketch.create", json!({"plane": "XY", "name": "Reach"})).unwrap()["sketch"].as_u64().unwrap();
+    let projected = app.run("sketch.project", json!({"refs": [{"sketch": "Guide", "curve": "guide"}]})).unwrap()["links"][0]["curves"][0]
+        .as_str()
+        .unwrap()
+        .to_string();
+    let line = app.run("sketch.line", json!({"points": [[0, 0], [10, -(44.0_f64).sqrt()]]})).unwrap()["curves"][0].as_str().unwrap().to_string();
+    app.run("sketch.dimension", json!({"entities": [line], "value": 12})).unwrap();
+    app.run("sketch.constraint.coincident", json!({"a": format!("{line}.end"), "b": projected})).unwrap();
+    // A second, unrelated line: never part of the conflict.
+    let other = app.run("sketch.line", json!({"points": [[-20, 5], [-5, 5]]})).unwrap()["curves"][0].as_str().unwrap().to_string();
+    app.run("sketch.finish", json!({})).unwrap();
+    let rect = egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(800.0, 600.0));
+    let conflict_lines = |app: &SolveApp| {
+        let scene = super::build_sketch_scene(app, &super::projection(app, rect));
+        let (lines, _) = scene.overlay.as_chunks::<{ crate::gpu::LINE_SIZE }>();
+        // A line names its colour by palette index (bytes 24..28).
+        lines
+            .iter()
+            .filter_map(|line| line.get(24..28)?.try_into().ok().map(u32::from_le_bytes))
+            .filter(|&i| scene.palette.get(crate::gpu::PaletteIndex(i)) == Some(super::c4(marker)))
+            .count()
+    };
+    for (w, conflicting, preference) in [("10 mm", false, true), ("20 mm", true, true), ("20 mm", true, false), ("10 mm", false, true)] {
+        h.app.preferences.sketch_conflict_colour = preference;
+        if h.app.session.active_sketch.is_some() {
+            h.app.run("sketch.finish", json!({})).unwrap();
+        }
+        h.app.run("parameters.change", json!({"name": "w", "expression": w})).unwrap();
+        h.app.edit_sketch(reach);
+        h.settle();
+        assert_eq!(h.app.session.active_sketch, Some(reach));
+        let st = h.app.session.world_state();
+        let ss = st.sketch(reach).unwrap();
+        assert_eq!(!ss.report.ok(), conflicting, "w = {w}: {:?}", ss.report);
+        let conflict = super::Conflict::of(&h.app, &ss.sketch, &ss.report);
+        let failing: Vec<_> = ss.sketch.constraints.iter().filter(|c| ss.report.failing.contains(&c.id)).collect();
+        assert_eq!(failing.is_empty(), !conflicting, "w = {w}: {:?}", ss.report);
+        // With the preference off, nothing is in the conflict colour: the failing glyphs and
+        // dimensions are red (`error`), as before.
+        let failing: Vec<_> = if preference { failing } else { Vec::new() };
+        // Exactly the curves and points the failing constraints hold.
+        for (i, curve) in ss.sketch.curves.iter().enumerate() {
+            let held = failing.iter().any(|c| c.kind.indices().1.contains(&i));
+            assert_eq!(conflict.curve(i), held, "w = {w}: curve {}", curve.id);
+        }
+        for i in 0..ss.sketch.points.len() {
+            assert_eq!(conflict.point(i), failing.iter().any(|c| c.kind.indices().0.contains(&i)), "w = {w}: point {i}");
+        }
+        let other = ss.sketch.curve_index(&other).unwrap();
+        assert!(!conflict.curve(other));
+        // Drawn: the held curves' lines, and the held points, the failing glyphs and dimensions.
+        let (lines, shapes) = (conflict_lines(&h.app), painted_in(&h.shapes, marker));
+        if conflicting && preference {
+            assert!(lines > 0, "the held curves are drawn in the conflict colour");
+            assert!(shapes > 0, "points, glyphs or dimensions in the conflict colour");
+        } else {
+            assert_eq!((lines, shapes), (0, 0), "w = {w}, preference {preference}: nothing in the conflict colour");
+        }
+        if conflicting && !preference {
+            let error = crate::theme::Tokens::get().error;
+            assert!(painted_in(&h.shapes, error) > 0, "the failing glyphs and dimensions stay red");
+        }
+    }
+    h.call("ui.prefs", json!({"theme": "dark"}));
+    h.frame();
+}

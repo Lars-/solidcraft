@@ -496,6 +496,8 @@ fn sketch_scene_key(app: &SolveApp, proj: &Proj) -> u64 {
     app.preferences.sketch_halo.hash(&mut h);
     // The grid previews the plane Create Sketch would take (#6975).
     previewed_sketch_plane(app).map(|p| [p.origin, p.x, p.y].map(|v| [v.x, v.y, v.z].map(f64::to_bits))).hash(&mut h);
+    // Conflicting curves in their own colour, or as before (#7244).
+    app.preferences.sketch_conflict_colour.hash(&mut h);
     (std::sync::Arc::as_ptr(&crate::open_meshing::shown_world(app)) as usize).hash(&mut h);
     crate::sketch_display::projection_key(proj, app.viewport.pixels_per_point()).hash(&mut h);
     h.finish()
@@ -1586,12 +1588,22 @@ fn build_sketch_scene(app: &SolveApp, proj: &Proj) -> GpuScene {
         // All the halos go first, so one curve's halo never cuts into another where they meet.
         let unit = grid_step(app.cam.half_height()).0;
         let mut strokes = Vec::new();
-        for (pts, col, cons) in sketch_lines_with_sampler(&ss.sketch, &ss.plane, active, &ss.report.curve_determined, |_, index, plane| {
-            crate::sketch_display::curve_sample(app, sid, index, plane, proj).parts.clone()
-        }) {
+        // The open sketch's curves a failing constraint holds take the conflict colour (#7244).
+        // The lines come curve by curve, each curve's parts in the order its sampler returned
+        // them, before the virtual corners and 3D curves: `owners` names each part's curve.
+        let conflict = if active { Conflict::of(app, &ss.sketch, &ss.report) } else { Conflict::default() };
+        let mut owners = Vec::new();
+        let lines = sketch_lines_with_sampler(&ss.sketch, &ss.plane, active, &ss.report.curve_determined, |_, index, plane| {
+            let parts = crate::sketch_display::curve_sample(app, sid, index, plane, proj).parts.clone();
+            owners.extend(std::iter::repeat_n(index, parts.len()));
+            parts
+        });
+        for (k, (pts, col, cons)) in lines.into_iter().enumerate() {
+            let conflicting = owners.get(k).is_some_and(|&curve| conflict.curve(curve));
             let segs = sketch_segments(&pts, sketch_line_mode(col, cons), unit);
             let haloed = app.preferences.sketch_halo && !active && col != colors::SKETCH_PROJECTED && col != colors::SKETCH_LOST;
-            strokes.push((segs, sc.color(sketch_color(&tk, col)), if cons { 1.2 } else { 2.0 }, haloed));
+            let colour = if conflicting { c4(tk.sketch_conflict) } else { sketch_color(&tk, col) };
+            strokes.push((segs, sc.color(colour), if cons { 1.2 } else { 2.0 }, haloed));
         }
         // Active sketches retain their existing through-body display. Inactive sketches
         // can opt into the same behaviour in Preferences.
@@ -5361,6 +5373,7 @@ fn overlays(app: &SolveApp, painter: &egui::Painter, proj: &Proj) {
     let Some(ss) = st.sketch(sid) else { return };
     let sk = &ss.sketch;
     let locked = sk.locked_points();
+    let conflict = Conflict::of(app, sk, &ss.report);
     let virtual_corners: Vec<usize> = sk.virtual_corners().into_iter().map(|(i, _)| i).collect();
     let visible = solidcraft_engine::view::SketchPointVisibility::new(sk);
     for (i, p) in sk.points.iter().enumerate() {
@@ -5370,7 +5383,9 @@ fn overlays(app: &SolveApp, painter: &egui::Painter, proj: &Proj) {
         let hidden = (sk.view.hide_points && i != 0) || (sk.view.hide_projected && p.link.is_some());
         let Some(sp) = proj.to_screen(ss.plane.to_world(p.pos)).filter(|_| !hidden) else { continue };
         let det = ss.report.point_determined.get(i).copied().unwrap_or(false);
-        let c = if p.link.is_none() && locked.get(i).copied().unwrap_or(false) {
+        let c = if conflict.point(i) {
+            t.sketch_conflict
+        } else if p.link.is_none() && locked.get(i).copied().unwrap_or(false) {
             t.sketch_locked
         } else if det {
             t.sketch_point
@@ -5412,6 +5427,52 @@ fn overlays(app: &SolveApp, painter: &egui::Painter, proj: &Proj) {
         let msg = format!("{} — {status}", crate::i18n::tr_name(&ss.name));
         let c = if ss.report.ok() { v.sketch_accent } else { v.error };
         painter.text(pos2(r.left() + 12.0, r.top() + 12.0), Align2::LEFT_TOP, msg, FontId::proportional(t.font_button), c);
+    }
+}
+
+/// The curves and points of a sketch that its failing constraints hold (the solve's `failing`:
+/// the constraints still violated after a failed solve). They are drawn in `sketch_conflict`
+/// until the conflict is gone (#7244); redundant constraints that hold are not failing. None
+/// while the Sketch preference `sketch_conflict_colour` is off.
+#[derive(Default)]
+pub(crate) struct Conflict {
+    curves: Vec<bool>,
+    points: Vec<bool>,
+}
+
+impl Conflict {
+    pub(crate) fn of(app: &SolveApp, sk: &solidcraft_engine::sketch::Sketch, report: &solidcraft_engine::sketch::SolveReport) -> Conflict {
+        let mut out = Conflict::default();
+        if !app.preferences.sketch_conflict_colour || report.failing.is_empty() {
+            return out;
+        }
+        out.curves = vec![false; sk.curves.len()];
+        out.points = vec![false; sk.points.len()];
+        for c in sk.constraints.iter().filter(|c| report.failing.contains(&c.id)) {
+            let (points, curves) = c.kind.indices();
+            for (held, of) in [(points, &mut out.points), (curves, &mut out.curves)] {
+                for i in held {
+                    if let Some(slot) = of.get_mut(i) {
+                        *slot = true;
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    pub(crate) fn curve(&self, i: usize) -> bool {
+        self.curves.get(i).copied().unwrap_or(false)
+    }
+
+    pub(crate) fn point(&self, i: usize) -> bool {
+        self.points.get(i).copied().unwrap_or(false)
+    }
+
+    /// A failing constraint's glyph or dimension: `sketch_conflict`, or with the preference off
+    /// the error red it always had.
+    pub(crate) fn glyph_colour(app: &SolveApp, t: &Tokens) -> Color32 {
+        if app.preferences.sketch_conflict_colour { t.sketch_conflict } else { t.error }
     }
 }
 
