@@ -1096,6 +1096,8 @@ struct Rows<'a> {
     drag: Option<Drag>,
     hovered: Option<u64>,
     edit: Option<u64>,
+    /// Each sketch's solve state, read once for the column (#7245).
+    sketch_states: crate::sketch_state::SketchStates,
 }
 
 fn vertical_features(app: &mut SolveApp, ui: &mut egui::Ui, names: bool) {
@@ -1137,6 +1139,7 @@ fn vertical_features(app: &mut SolveApp, ui: &mut egui::Ui, names: bool) {
     let from_view = [crate::timeline::hovered_feature(app), crate::timeline::picked_feature(app)];
     let drag_id = ui.id().with("tl_vertical_drag");
     let mut rows = Rows {
+        sketch_states: crate::sketch_state::SketchStates::of(app),
         names,
         under_feature,
         features: &features,
@@ -1327,6 +1330,7 @@ fn feature_row(app: &mut SolveApp, ui: &mut egui::Ui, rows: &mut Rows, index: us
     let listed =
         (row_kind == RowKind::Own).then(|| plan.row_at(index)).flatten().map(|row| row.listed.as_slice()).filter(|listed| !listed.is_empty());
     let has_patterns = !reference && matches!(kind, TimelineKind::Sketch) && crate::sketch_pattern_tree::has_patterns(app, id);
+    let sketch_state = matches!(kind, TimelineKind::Sketch).then(|| rows.sketch_states.get(id)).flatten();
     // One fold per row: a feature's listed sketches, or a sketch's patterns.
     let fold = match listed {
         Some(_) => Some((sketches_key(id), false)),
@@ -1383,6 +1387,7 @@ fn feature_row(app: &mut SolveApp, ui: &mut egui::Ui, rows: &mut Rows, index: us
         error: error.is_some(),
         warning: warning.is_some(),
         reference,
+        ink: sketch_state.and_then(|state| state.ink(&t)),
         accent: crate::theme::TabAccent::for_tab(&t, if dragged { "SKETCH" } else { &app.ui.tab }),
     }
     .paint(ui.painter(), chip, style);
@@ -1416,6 +1421,9 @@ fn feature_row(app: &mut SolveApp, ui: &mut egui::Ui, rows: &mut Rows, index: us
         let mut tip = format!("{name} · {kind} · {summary}");
         if error.is_some() || warning.is_some() {
             tip.push_str(&format!("\n{}", crate::timeline::status_text(name, ty, error.as_deref(), warning.as_deref())));
+        }
+        if let Some(state) = sketch_state {
+            tip.push_str(&format!("\n{}", state.text()));
         }
         crate::ui_kit::text(ui, &tip, crate::ui_kit::Text::Value("history", false));
         // A value row is one line: where the sketch is listed gets a row of its own.

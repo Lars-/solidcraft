@@ -1040,6 +1040,9 @@ preference_settings! {
     sketch_tracking_guides: bool = true, PAGE_SKETCH;
     /// Whether Alt/Option also frees gizmo / canvas manipulator arrows (Primary always does).
     manipulator_free_alt: bool = true, PAGE_SKETCH;
+    /// A sketch's icon in History and the browser takes the colour of its solve state, and its
+    /// tooltip names the state (#7245). Off: every sketch has the same icon, as before.
+    sketch_state_icons: bool = true, PAGE_SKETCH => check_id("prefs.sketch_state_icons");
     /// A sketch tool's shortcut pressed again before the first point steps to the tool's next
     /// creation mode (#2459). Off (the default): the key starts the tool again, as it always has.
     shortcut_cycles_modes: bool = false, PAGE_SKETCH;
@@ -4380,6 +4383,7 @@ mod tests {
             ("look_at_anim", json!(false), PAGE_NAVIGATION),
             ("selection_shift_add_only", json!(true), PAGE_SKETCH),
             ("suppress_sketch_snap", json!(ModifierCombo::NONE), PAGE_SKETCH),
+            ("sketch_state_icons", json!(false), PAGE_SKETCH),
             ("sketch_tracking_guides", json!(false), PAGE_SKETCH),
             ("msaa", json!(8), PAGE_GRAPHICS),
         ];

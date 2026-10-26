@@ -103,7 +103,11 @@
   the dialog's title row, right of the title, where they stay while sections open and close;
   Cancel then also takes the place of the close button. Enter and Esc work as before.
 - **Timeline** (bottom). Every feature in order. Double-click to edit, drag the marker to roll
-  back, and drag features to reorder them. Preferences can put the timeline vertically at the
+  back, and drag features to reorder them. A sketch's icon, here and in the browser, takes the
+  colour of its state: the sketch colour while it is under constrained, the fully constrained
+  colour, or red while its constraints conflict; its tooltip names the state (Preferences ›
+  Sketch › **Sketch icons in the colour of their state**, on by default, turns this off).
+  Preferences can put the timeline vertically at the
   far left of the viewport, beside the browser. Its seam handle switches between icon
   chips and compact feature names; the browser can collapse to a rail beside either width.
   Docked under the browser, the two share the column: drag the seam between them to give either

@@ -15,6 +15,9 @@ pub(super) fn show(app: &mut SolveApp, ui: &mut egui::Ui) {
             .on_hover_text(crate::i18n::tr_label(
                 "Before the first point, pressing a sketch tool's shortcut again steps through its creation modes. Off: it starts the tool again.",
             ));
+        // Sketch icons in the colour of their solve state (#7245).
+        let check = setting::sketch_state_icons(app, ui).on_hover_text(app.tr("prefs.sketch_state_icons_note"));
+        crate::scenario::publish_target("prefs:sketch_state_icons", check.rect);
         let dimension = setting::sketch_auto_dimensions(app, ui);
         crate::scenario::publish_handle("prefs:sketch_auto_dimensions", dimension.rect.center());
         ui.add_enabled_ui(app.preferences.sketch_auto_dimensions, |ui| {

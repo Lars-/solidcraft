@@ -1976,6 +1976,7 @@ fn confirm_radial_and_history_rows_keep_multitone_artwork() {
                             warning: false,
                             reference: false,
                             accent: crate::theme::TabAccent::for_tab(&Tokens::get(), "MODEL"),
+                            ink: None,
                         }
                         .paint(
                             ui.painter(),

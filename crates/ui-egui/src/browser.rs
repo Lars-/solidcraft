@@ -2011,6 +2011,8 @@ struct Entry {
     visible: bool,
     selected: bool,
     color: Option<Color32>,
+    /// A sketch's solve state: its icon's colour and its tooltip (#7245).
+    sketch_state: Option<crate::sketch_state::SketchState>,
     locked: bool,
     sel: Option<Sel>,
     target: Option<Target>,
@@ -2031,6 +2033,7 @@ impl Entry {
             visible: !app.session.visibility.hidden_bodies.contains(&world),
             selected: app.session.selection.iter().any(|s| matches!(s, Sel::Body { name } if name == &world)),
             color: None,
+            sketch_state: None,
             locked: app.session.visibility.locked_bodies.contains(&world),
             sel: Some(Sel::Body { name: world.clone() }),
             target: Some(Target::Body { name: world.clone() }),
@@ -2041,6 +2044,7 @@ impl Entry {
     fn sketch(app: &SolveApp, f: &solidcraft_engine::doc::Feature) -> Self {
         let t = Tokens::get();
         let active = app.session.active_sketch == Some(f.id);
+        let sketch_state = app.session.model.state().sketch(f.id).map(crate::sketch_state::SketchState::of);
         let lost = app.session.model.result(f.id).is_some_and(|result| result.error.is_some())
             && matches!(app.session.doc.sketch_face_attachment(f.id, &app.session.model), solidcraft_engine::doc::FaceAttachmentStatus::Lost { .. });
         Self {
@@ -2059,6 +2063,7 @@ impl Entry {
             visible: sketch_visible(app, f.id),
             selected: active || app.session.selection.iter().any(|s| matches!(s, Sel::Feature { id } if *id == f.id)),
             color: if lost { Some(t.error) } else { active.then_some(t.sketch_accent) },
+            sketch_state,
             locked: false,
             sel: Some(Sel::Feature { id: f.id }),
             target: Some(Target::Sketch { id: f.id }),
@@ -2083,6 +2088,7 @@ impl Entry {
             visible: !app.session.visibility.hidden_origin.contains(&f.name),
             selected: app.session.selection.contains(&sel),
             color: None,
+            sketch_state: None,
             locked: false,
             sel: Some(sel),
             target: Some(Target::Plane { id: f.id }),
@@ -2456,6 +2462,9 @@ fn entry_row(
         _ => e.locked,
     };
     let badges: &[&str] = if locked { &["lock"] } else { &[] };
+    // Cached with the evaluated model; the preference is read as the row is drawn.
+    let sketch_state = e.sketch_state.filter(|_| app.preferences.sketch_state_icons);
+    let state_tip = sketch_state.map(crate::sketch_state::SketchState::text);
     let r = draw_row(
         ui,
         ui.id().with(("item", &e.row_key)),
@@ -2473,6 +2482,8 @@ fn entry_row(
             swatch: appearance.swatch,
             secondary: &appearance.name,
             count: &appearance.count,
+            icon_ink: sketch_state.and_then(|state| state.ink(&Tokens::get())),
+            tip: state_tip.as_deref(),
             badges,
             mark,
             ..Default::default()

@@ -1,0 +1,60 @@
+{
+  "en": {
+    "history.sketch_under_constrained": "Under constrained ({count} degrees of freedom)",
+    "history.sketch_under_constrained_one": "Under constrained ({count} degree of freedom)",
+    "prefs.sketch_state_icons": "Sketch icons in the color of their state",
+    "prefs.sketch_state_icons_note": "In History and the browser, a sketch's icon takes the color of its state (under constrained, fully constrained or conflicting) and its tooltip names the state. Off: every sketch has the same icon."
+  },
+  "en-GB": {
+    "prefs.sketch_state_icons": "Sketch icons in the colour of their state",
+    "prefs.sketch_state_icons_note": "In History and the browser, a sketch's icon takes the colour of its state (under constrained, fully constrained or conflicting) and its tooltip names the state. Off: every sketch has the same icon."
+  },
+  "de": {
+    "history.sketch_under_constrained": "Unterbestimmt ({count} Freiheitsgrade)",
+    "history.sketch_under_constrained_one": "Unterbestimmt ({count} Freiheitsgrad)",
+    "prefs.sketch_state_icons": "Skizzensymbole in der Farbe ihres Zustands",
+    "prefs.sketch_state_icons_note": "Im Verlauf und im Browser nimmt das Symbol einer Skizze die Farbe ihres Zustands an (unterbestimmt, vollständig bestimmt oder im Konflikt), und ihr Tooltip nennt den Zustand. Aus: Alle Skizzen haben dasselbe Symbol."
+  },
+  "ja": {
+    "history.sketch_under_constrained": "拘束不足（自由度 {count}）",
+    "history.sketch_under_constrained_one": "拘束不足（自由度 {count}）",
+    "prefs.sketch_state_icons": "スケッチアイコンを状態の色で表示",
+    "prefs.sketch_state_icons_note": "履歴とブラウザーで、スケッチのアイコンがその状態（拘束不足、完全拘束、競合）の色になり、ツールチップに状態が表示されます。オフ: すべてのスケッチが同じアイコンになります。"
+  },
+  "ko": {
+    "history.sketch_under_constrained": "구속 부족 (자유도 {count}개)",
+    "history.sketch_under_constrained_one": "구속 부족 (자유도 {count}개)",
+    "prefs.sketch_state_icons": "스케치 아이콘을 상태 색상으로 표시",
+    "prefs.sketch_state_icons_note": "이력과 브라우저에서 스케치 아이콘이 상태(구속 부족, 완전 구속, 충돌)의 색상을 띠고 도구 설명에 상태가 표시됩니다. 끄기: 모든 스케치가 같은 아이콘을 사용합니다."
+  },
+  "nl": {
+    "history.sketch_under_constrained": "Onderbeperkt ({count} vrijheidsgraden)",
+    "history.sketch_under_constrained_one": "Onderbeperkt ({count} vrijheidsgraad)",
+    "prefs.sketch_state_icons": "Schetspictogrammen in de kleur van hun staat",
+    "prefs.sketch_state_icons_note": "In de geschiedenis en de browser krijgt het pictogram van een schets de kleur van zijn staat (onderbeperkt, volledig beperkt of conflicterend) en noemt de tooltip de staat. Uit: elke schets heeft hetzelfde pictogram."
+  },
+  "zh": {
+    "history.sketch_under_constrained": "欠约束（{count} 个自由度）",
+    "history.sketch_under_constrained_one": "欠约束（{count} 个自由度）",
+    "prefs.sketch_state_icons": "以草图状态的颜色显示草图图标",
+    "prefs.sketch_state_icons_note": "在历史和浏览器中，草图图标采用其状态（欠约束、完全约束或冲突）的颜色，工具提示会说明状态。关闭：所有草图使用相同的图标。"
+  },
+  "ar": {
+    "history.sketch_under_constrained": "قيود ناقصة ({count} درجات حرية)",
+    "history.sketch_under_constrained_one": "قيود ناقصة ({count} درجة حرية)",
+    "prefs.sketch_state_icons": "أيقونات الرسومات بلون حالتها",
+    "prefs.sketch_state_icons_note": "في السجل والمستعرض، تأخذ أيقونة الرسم لون حالته (قيود ناقصة، مقيّد بالكامل أو متعارض) ويذكر تلميحه الحالة. عند الإيقاف: لكل الرسومات الأيقونة نفسها."
+  },
+  "he": {
+    "history.sketch_under_constrained": "אילוצים חסרים ({count} דרגות חופש)",
+    "history.sketch_under_constrained_one": "אילוצים חסרים (דרגת חופש {count})",
+    "prefs.sketch_state_icons": "סמלי סקיצות בצבע המצב שלהן",
+    "prefs.sketch_state_icons_note": "בהיסטוריה ובדפדפן, סמל הסקיצה מקבל את צבע המצב שלה (אילוצים חסרים, מאולצת במלואה או סותרת) וחלונית העזרה מציינת את המצב. כבוי: לכל הסקיצות אותו סמל."
+  },
+  "vi": {
+    "history.sketch_under_constrained": "Thiếu ràng buộc ({count} bậc tự do)",
+    "history.sketch_under_constrained_one": "Thiếu ràng buộc ({count} bậc tự do)",
+    "prefs.sketch_state_icons": "Biểu tượng bản phác theo màu trạng thái",
+    "prefs.sketch_state_icons_note": "Trong Lịch sử và trình duyệt, biểu tượng của bản phác lấy màu trạng thái của nó (thiếu ràng buộc, ràng buộc đủ hoặc xung đột) và chú thích nêu trạng thái. Tắt: mọi bản phác có cùng biểu tượng."
+  }
+}

@@ -68,6 +68,8 @@ pub(crate) struct HistoryChip<'a> {
     /// its name is in secondary text.
     pub reference: bool,
     pub accent: TabAccent,
+    /// Draw the icon in this one colour instead of its artwork: a sketch's solve state (#7245).
+    pub ink: Option<egui::Color32>,
 }
 
 /// Share the feature classification across chips and name rows. Surface aliases also
@@ -136,7 +138,10 @@ impl HistoryChip<'_> {
         };
         let icon =
             Rect::from_center_size(if names { pos2(rect.left() + t.space_8 + side / 2.0, rect.center().y) } else { rect.center() }, vec2(side, side));
-        icons::paint_accented(&p, icon, self.icon, feature_icon_accent(self.kind, self.icon), 1.0);
+        match self.ink {
+            Some(ink) => icons::paint_ink(&p, icon, self.icon, ink),
+            None => icons::paint_accented(&p, icon, self.icon, feature_icon_accent(self.kind, self.icon), 1.0),
+        }
         if names {
             let ink = if self.selected {
                 self.accent.ink
@@ -573,6 +578,7 @@ mod tests {
                             warning: false,
                             reference: false,
                             accent,
+                            ink: None,
                         }
                         .paint(ui.painter(), rect, style)
                     });
@@ -634,6 +640,7 @@ mod tests {
                             warning: false,
                             reference: false,
                             accent: TabAccent::for_tab(&t, "MODEL"),
+                            ink: None,
                         }
                         .paint(ui.painter(), rect, style);
                     }
